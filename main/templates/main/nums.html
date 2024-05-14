@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Kjcnums-nums
+{% endblock title %}
+
+{% block header %}
+        <div class="fixed-top justify-content-between d-flex" id="header">
+        <form action="" method="get" class="btn-group m-2">
+          <span class="me-2"><a href="/" class="link" style="font-size: larger;"><i class="bi bi-house"></i></a></span>
+          <input type="search" name="search" id="search" class="form-control" value="{{search}}" >
+          <button type="submit" class="btn btn-success"><i class="bi bi-search"></i></button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="window.history.back()"><i class="bi bi-arrow-return-left"></i></button>
+        </form>
+        <span class=" p-1">
+          {% if user.is_authenticated %}
+          <span class="me-1">Hello 👋 {{user.username}}</span>|
+          <form action="/logout/" method="post" class="d-inline">
+            {% csrf_token %}
+            <input
+              type="submit"
+              value="logout"
+              class="btn btn-sm btn-outline-dark"
+            />
+          </form> | <a href="{% url 'main:profile' user.username %}" class="link">My profile</a>
+          {% else %}
+          <a class="link" href="/sign-up">Sign Up</a>|<a
+            class="link"
+            href="/login"
+            >Login</a
+          >
+          {% endif %}
+        </span>
+      </div>
+{% endblock header %}
+  
+{% block content %}
+
+  <main class="container">
+    <section class="head">
+      <h1 class="text-center text-primary">Our Nums 📞</h1>
+    </section>
+
+      
+      {% if college_students or tutorial_students %}
+        
+      
+        
+      {% if college_students %}
+        
+      <section class="container-fluid">
+        <h2 class="lead section-title display-6 pb-3">College students</h2>
+        <div class="nums">
+          <div class="row">
+            
+            {% for student,ristriction in college.items %}
+            <div class="col-6 col-sm-4 col-lg-2">
+              <div class="num">
+                <div class="image d-flex justify-content-center">
+                  <img
+                    src="
+                {% if student.image %}
+                  /{{student.image}}
+                {% else %}
+                  {% static '/images/no-image-found-360x260.png' %}
+                {% endif %}
+                  "
+                    alt=""
+                    class="img-thumbnail img-fluid rounded-circle"
+                  />
+                </div>
+                <div class="content">
+                  <div class="overflow-hidden" >
+                    <h3 class="username text-primary" style="width: 100%; text-overflow: ellipsis;"><a href="{% url 'main:profile' student.user.username %}">{{student.user.username}}</a></h3>
+                    <span class="text-muted name"><span class="text-primary">{{student.user.last_name}}</span>&nbsp;{{student.user.first_name}}</span>
+                  </div>
+                  <div class="contact">
+                    <span> 
+                      <div class="d-block">
+                        
+                        {% if not ristriction %}
+                          <i class="bi bi-phone"></i>&nbsp;<a href="tel:{{student.nums.first.num}}" class="link phone">{{student.nums.first.num}}</a> <a  role="button" id="btn-toggle{{student.pk}}" class="collapsed" data-bs-toggle="collapse" href="#more{{student.pk}}" onclick="textToggle('btn-toggle{{student.pk}}')" aria-expanded="false"><i class="bi bi-arrow-down-square-fill"></i></a>
+                          <div class="collapse" id="more{{student.pk}}">
+                            {% for num in student.nums.all %}
+                              <span class="dropdown-item"><i class="bi bi-phone"></i>&nbsp;<a href="tel:{{num.num}}" class="link phone">{{num.num}}</a></span>
+                            {% endfor %}
+                          </div>
+                        {% else %}
+                            <i class="bi bi-phone"></i>&nbsp;<span class="text-muted phone">Hidden</span>
+                        {% endif %}
+                          
+                      </div>
+                    </span>
+                    
+                    {% if not ristriction %}
+                      {% if student.sociallinks.count > 0 %}
+                      <div class="social-links" >
+                          <p class="text-muted m-0 mt-1">Social links</p>
+                        <ul>
+                          
+                          {% for sociallink in student.sociallinks.all %}
+                          <li>
+                            <span><a href="{{sociallink.link}}"><i class="bi bi-{{sociallink.platform}}"></i></a></span>
+                          </li>
+                          {% endfor %}
+                            
+
+                        </ul>
+                      </div>
+                      {% else %}
+                      <div class="social-links">
+                          <p class="text-muted m-0 mt-1">Social links</p>
+                        <p class="text-muted mb-4" style="margin-top: 2rem;">No links</p>
+                      </div>
+                      {% endif %}
+                    {% else %}
+                    <div class="social-links">
+                        <p class="text-muted m-0 mt-1">Social links</p>
+                      <p class="text-muted mb-4" style="margin-top: 2rem;">Hidden</p>
+                    </div>
+                    {% endif %}  
+                  </div>
+                </div>
+              </div>
+            </div> 
+            {% endfor %}
+              
+            
+
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      {% if tutorial_students %}
+      <section class="container-fluid">
+        <h2 class="lead section-title display-6 pb-3">Tutorial students</h2>
+        <div class="nums">
+          <div class="row">
+            
+            {% for student in tutorial_students %}
+            <div class="col-6 col-sm-4 col-lg-2">
+              <div class="num">
+                <div class="image d-flex justify-content-center">
+                  <img
+                    src="
+                {% if student.image %}
+                  /{{student.image}}
+                {% else %}
+                  {% static '/images/no-image-found-360x260.png' %}
+                {% endif %}
+                  "
+                    alt=""
+                    class="img-thumbnail img-fluid rounded-circle"
+                  />
+                </div>
+                <div class="content">
+                  <div class="overflow-hidden" >
+                    <h3 class="username text-primary" style="width: 100%; text-overflow: ellipsis;"><a href="{% url 'main:profile' student.user.username %}">{{student.user.username}}</a></h3>
+                    <span class="text-muted name"><span class="text-primary">{{student.user.last_name}}</span>&nbsp;{{student.user.first_name}}</span>
+                  </div>
+                  <div class="contact">
+                    <span> 
+                      <div class="d-block">
+                      
+                      {% if not ristriction %}
+                          <i class="bi bi-phone"></i>&nbsp;<a href="tel:{{student.nums.first.num}}" class="link phone">{{student.nums.first.num}}</a> <a  role="button" id="btn-toggle{{student.pk}}" class="collapsed" data-bs-toggle="collapse" href="#more{{student.pk}}" onclick="textToggle('btn-toggle{{student.pk}}')" aria-expanded="false"><i class="bi bi-arrow-down-square-fill"></i></a>
+                          <div class="collapse" id="more{{student.pk}}">
+                            {% for num in student.nums.all %}
+                              <span class="dropdown-item"><i class="bi bi-phone"></i>&nbsp;<a href="tel:{{num.num}}" class="link phone">{{num.num}}</a></span>
+                            {% endfor %}
+                          </div>
+                      {% else %}
+                            <i class="bi bi-phone"></i>&nbsp;<span class="text-muted phone">Hidden</span>
+                      {% endif %}
+                        
+                      </div>
+                    </span>
+                    
+                    {% if not ristriction %}
+                      {% if student.sociallinks.count > 0 %}
+                      <div class="social-links">
+                          <p class="text-muted m-0 mt-1">Social links</p>
+                        <ul>
+                          
+                          {% for sociallink in student.sociallinks.all %}
+                          <li>
+                            <span><a href="{{sociallink.link}}"><i class="bi bi-{{sociallink.platform}}"></i></a></span>
+                          </li>
+                          {% endfor %}
+                            
+
+                        </ul>
+                      </div>
+                      {% else %}
+                      <div class="social-links">
+                          <p class="text-muted m-0 mt-1">Social links</p>
+                        <p class="text-muted mb-4" style="margin-top: 2rem;">No links</p>
+                      </div>
+                      {% endif %}
+                    {% else %}
+                      <div class="social-links">
+                          <p class="text-muted m-0 mt-1">Social links</p>
+                        <p class="text-muted mb-4" style="margin-top: 2rem;">Hidden</p>
+                      </div>
+                    {% endif %}
+                      
+                  </div>
+                </div>
+              </div>
+            </div> 
+            {% endfor %}
+              
+            
+
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      {% else %}
+      <section>
+        <div class="contanier d-flex justify-content-center align-items-center">
+          <div class="shadow w-100 p-4 text-center lead rounded-1">
+            No numbers found
+          </div>
+        </div>
+      </section>
+      {% endif %}
+        
+
+    </main>
+{% endblock content %}
+  
+    
+

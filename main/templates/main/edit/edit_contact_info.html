@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %} 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit profile</title>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+</head>
+<body> 
+    <div id="body">
+        <div id="inner">
+            <form action="" method="post">
+                <h2 class="text-muted mb-3">Edit contact info</h2>
+                {% csrf_token %}
+                <div class="list-group mb-2">
+                    <div class="list-group-item ">
+                        <i class="bi bi-phone"></i>&nbsp;<span>Phone numbers</span>
+                        {% if userdata.nums.count > 0 %}
+                        <a
+                        role="button"
+                        id="phone-toggle"
+                        class="collapsed float-end"
+                        data-bs-toggle="collapse"
+                        href="#phone"
+                        onclick="textToggle('phone-toggle')"
+                        aria-expanded="false"
+                        ><i class="bi bi-arrow-down-square-fill"></i
+                        ></a>
+                        {% else %}
+                        <span class="float-end">No Number</span>
+                        {% endif %}
+                        <span><a href="{% url 'main:edit' 'edit' user.username 'num' %}" class="float-end "><i class="bi bi-plus"></i></a></span>
+                        <div class="collapse" id="phone">
+                        
+                        {% for number in userdata.nums.all %}
+                            <span class="dropdown-item"
+                            ><i class="bi bi-phone"></i>&nbsp;<a
+                            href="tel:{{number.num}}"
+                            class="link phone"
+                            >{{number.num}}</a
+                            ><a href="{% url 'main:del' 'num' number.id %}" class="btn btn-close btn-danger float-end btn-sm"></a></span>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-link"></i>&nbsp;<span>Other links</span>      
+                        {% if userdata.otherlinks.count > 0 %}
+                        <a
+                        role="button"
+                        id="links-toggle"
+                        class="collapsed float-end"
+                        data-bs-toggle="collapse"
+                        href="#links"
+                        onclick="textToggle('links-toggle')"
+                        aria-expanded="false"
+                        ><i class="bi bi-arrow-down-square-fill"></i
+                        ></a>
+                        {% else %}
+                            <span class="float-end">No links</span>
+                        {% endif %}   
+                        <span><a href="{% url 'main:edit' 'edit' user.username 'link' %}" class="float-end "><i class="bi bi-plus"></i></a></span>    
+                        <div class="collapse" id="links">                      
+                        {% for link in userdata.otherlinks.all %}
+                            <span class="dropdown-item"
+                            ><i class="bi bi-link"></i>&nbsp;<a
+                            href="{{link.link}}"
+                            class="link phone"
+                            >{{link.display_text}}</a
+                            ><a href="{% url 'main:del' 'link' link.id %}" class="btn btn-close btn-danger float-end btn-sm"></a></span>
+                        {% endfor %}
+                            
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <i class="bi bi-link"></i>&nbsp;<span>Social links</span>      
+                        {% if userdata.sociallinks.count > 0 %}
+                        <a
+                        role="button"
+                        id="sociallinks-toggle"
+                        class="collapsed float-end"
+                        data-bs-toggle="collapse"
+                        href="#sociallinks"
+                        onclick="textToggle('sociallinks-toggle')"
+                        aria-expanded="false"
+                        ><i class="bi bi-arrow-down-square-fill"></i
+                        ></a>
+                        {% else %}
+                            <span class="float-end">No links</span>
+                        {% endif %}   
+                        <span><a href="{% url 'main:edit' 'edit' user.username 'social' %}" class="float-end "><i class="bi bi-plus"></i></a></span>    
+                        <div class="collapse" id="sociallinks">                      
+                        {% for link in userdata.sociallinks.all %}
+                            <span class="dropdown-item"
+                            ><i class="bi bi-{{link.platform.platform}}"></i>&nbsp;<a
+                            href="{{link.link}}"
+                            class="link phone"
+                            >{{link.text}}</a
+                            ><a href="{% url 'main:del' 'social' link.id %}" class="btn btn-close btn-danger float-end btn-sm"></a></span>
+                        {% endfor %}
+                            
+                        </div>
+                    </div>
+              <a href="{% url 'main:edit_privacy' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit mt-2"><i class="bi bi-pencil-square "></i> Privacy settings</a>
+
+                </div>
+                <div class="btn-group w-100">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static '/vendor/js/bootstrap.min.js' %}"></script>
+    <script>
+
+    </script>
+</body>
+</html>

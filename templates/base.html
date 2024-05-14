@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Kjcnums-home{% endblock %}</title>
+    {% block style %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+  </head>
+  <body>
+    <header>
+      
+      {% block header %}
+      <div class="fixed-top">
+        <span class="float-end p-1">
+          <div style="display: inline;" class="d-inline float-start"><dotlottie-player src="{% static 'animations/hola.json' %}" style="width: 50px;" background="transparent" speed="1" loop autoplay></dotlottie-player></div>
+          {% if user.is_authenticated %}
+          <div class="">
+          <span class="me-1">Hello {{user.username}}</span>|
+          <form action="/logout/" method="post" class="d-inline">
+            {% csrf_token %}
+            <input
+              type="submit"
+              value="logout"
+              class="btn btn-sm btn-outline-dark"
+            />
+          </form> |  <a href="{% url 'main:profile' user.username %}" class="link">My profile</a>
+        </div>
+          {% else %}
+          <a class="link pt-2" href="/sign-up">Sign Up</a>|<a
+            class="link"
+            href="/login"
+            >Login</a
+          >
+          {% endif %}
+        </span>
+      </div>
+      {% endblock header %}
+        
+
+    </header>
+    {% block content %}{% endblock %}
+    <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

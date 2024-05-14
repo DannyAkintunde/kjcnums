@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %} 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page.title}}</title>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/css/bootstrap.min.css' %}">
+</head>
+<body> 
+    <div id="body">
+        <div id="inner">
+            <form action="" method="post">
+                <h2 class="text-muted mb-3">{{page.hint}}</h2>
+                {% if page.message3 %}
+                    <p class="text-muted font-monospace">{{page.message3}}</p>
+                {% endif %}
+                {% if page.message2 %}
+                    <p class="text-danger">{{page.message2}}</p>
+                {% endif %}
+                    
+
+                {% csrf_token %}{{form|crispy}}
+                <button type="submit" class="">Add</button>
+                
+                {% if page.message %}
+                    <p>{{page.message|safe}}</p>
+                {% endif %}
+                    
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

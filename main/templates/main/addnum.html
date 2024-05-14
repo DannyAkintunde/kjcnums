@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %} 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add number</title>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+
+</head>
+<body> 
+    <div id="body">
+        <div id="inner">
+            <form action="" method="post">
+                <h2 class="text-muted mb-3">Type in your number</h2>
+                <input type="hidden" name="username" value="{{user.username}}">
+                {% csrf_token %}{{form|crispy}}
+                <button type="submit" class="">Add number</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementsByTagName("input")[2].setAttribute('pattern','[0-9]{11}')
+    </script>
+</body>
+</html>

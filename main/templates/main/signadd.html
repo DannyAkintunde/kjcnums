@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finish up</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}"
+    />
+  </head>
+  <body>
+    <div class="fixed-top">
+      <span class="float-end">
+        <a href="/nums" class="btn btn-close m-3 btn-danger"></a>
+      </span>
+    </div>
+    <main id="body" class="justify-content-center align-items-center">
+      <div id="profile">
+        <div class="list-group">
+          
+          {% if message %}
+            <div class="list-group-item list-group-item-danger">
+              <p class="text-danger text-center font-monospace">{{message}}</p>
+            </div>
+          {% endif %}
+            
+
+          <div class="image list-group-item d-flex justify-content-center">
+            
+            <img
+              src="/{{userdata.image}}"
+              alt=""
+              srcset=""
+              class="img-thumbnail img-fluid rounded-circle"
+            />
+          </div>
+          <div class="list-group-item">
+            <span>Username</span><span class="float-end">{{User.username}}</span>
+          </div>
+          <div class="list-group-item">
+            <span>Full name</span
+            ><span class="float-end">{{User.last_name}} {{User.first_name}}</span>
+          </div>
+          <div class="list-group-item">
+            <span>Gender</span><span class="float-end">
+              
+              {% if userdata.gender == 'm' %}
+                Male
+              {% elif userdata.gender == 'f' %}
+                Female
+              {% else %}
+                Error
+              {% endif %}
+                
+            </span>
+          </div>
+          <div class="list-group-item">
+            <span>Student type</span><span class="float-end">{{userdata.category}}</span>
+          </div>
+          <div class="list-group-item">
+            <i class="bi bi-phone"></i>&nbsp;<span>Phone numbers*</span>
+            
+            {% if userdata.nums.count > 0 %}
+              <a
+              role="button"
+              id="phone-toggle"
+              class="collapsed float-end"
+              data-bs-toggle="collapse"
+              href="#phone"
+              onclick="textToggle('phone-toggle')"
+              aria-expanded="false"
+              ><i class="bi bi-arrow-down-square-fill"></i
+            ></a>
+            {% else %}
+                <span class="float-end">No Number</span>
+            {% endif %}
+              <span class="float-end"><a href="{% url 'main:edit' 'setup' user.username 'num' %}" class="p-2 rounded-2"><i class="bi bi-plus"></i></a></span>
+
+              
+            <div class="collapse" id="phone">
+              
+              {% for number in userdata.nums.all %}
+                <span class="dropdown-item"
+                ><i class="bi bi-phone"></i>&nbsp;<a
+                  href="tel:{{number.num}}"
+                  class="link phone"
+                  >{{number.num}}</a
+                ></span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="list-group-item">
+            <i class="bi bi-link"></i>&nbsp;<span>Other links</span>
+            
+            {% if userdata.otherlinks.count > 0 %}
+              <a
+              role="button"
+              id="links-toggle"
+              class="collapsed float-end"
+              data-bs-toggle="collapse"
+              href="#links"
+              onclick="textToggle('links-toggle')"
+              aria-expanded="false"
+              ><i class="bi bi-arrow-down-square-fill"></i
+            ></a>
+
+            {% else %}
+                <span class="float-end">No links</span>
+            {% endif %}
+              <span class="float-end"><a href="{% url 'main:edit' 'setup' user.username 'link' %}" class="p-2 rounded-2"><i class="bi bi-plus"></i></a></span>
+
+              
+            <div class="collapse" id="links">
+              
+              {% for link in userdata.otherlinks.all %}
+                <span class="dropdown-item"
+                ><i class="bi bi-link"></i>&nbsp;<a
+                  href="{{link.link}}"
+                  class="link phone"
+                  >{{link.display_text}}</a
+                ></span>
+              {% endfor %}
+                
+            </div>
+          </div>
+          <div class="list-group-item">
+            <div class="social-links mb-4">
+              <span class="d-block m-0 mb-2" style="font-size: medium"
+                >Social Links</span
+              >
+              <ul>
+                
+                {% for link in userdata.sociallinks.all %}
+                <li>
+                  <span
+                    ><a href="{{link.link}}"><i class="bi bi-{{link.platform.platform}}"></i></a
+                  ></span>
+                </li>
+                {% endfor %}
+                  
+
+              </ul>
+              <span><a href="{% url 'main:edit' 'setup' user.username 'social' %}" class="p-2 rounded-2"><i class="bi bi-plus"></i></a></span>
+            </div>
+          </div>
+          
+          {% if user.username == User.username %}
+          {% if userdata.nums.count > 0%}
+          <div class="list-group-item">
+            <div class="d-grid">
+                <a href="{% url 'main:edit' 'setup' user.username 'nin' %}" class="btn btn-outline-success" >Done</a>
+            </div>
+          </div>
+          {% else %}
+            <div class="list-group-item">
+              <form action="" method="post" class="d-grid">
+                  {% csrf_token %}
+                  <input type="hidden" name="error" value="no-num">
+                  <input type="submit" class="btn btn-outline-success" value="Done">
+              </form>
+
+            </div>
+          {% endif %}
+          {% endif %}
+            
+        </div>
+      </div>
+    </main>
+    <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        document.getElementsByTagName("input")[2].setAttribute('pattern','[0-9]{11}')
+    </script>
+  </body>
+</html>

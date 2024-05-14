@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kjcnums-profile {{user.username}}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}"
+    />
+  </head>
+  <body>
+    <div class="fixed-top">
+      <span class="float-end">
+        <a class="btn btn-outline-dark" href="/"><i class="bi bi-house"></i></a>
+        <button  class="btn btn-close m-3 btn-danger" onclick="back()"></button>
+      </span>
+    </div>
+    <main id="body" class="justify-content-center align-items-center">
+      <div id="profile">
+        <div class="list-group">
+          <div class="list-group-item">
+            <div class="image  d-flex justify-content-center">
+
+              <img
+                src="
+                {% if userdata.image %}
+                  /{{userdata.image}}
+                {% else %}
+                  {% static '/images/no-image-found-360x260.png' %}
+                {% endif %}
+                  "
+                alt=""
+                srcset=""
+                class="img-thumbnail img-fluid rounded-circle"
+              />
+            
+              
+            </div>
+            {% if user.username == User.username %}
+            <div class="float-end">
+              <a href="{% url 'main:edit_user_info' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit"><i class="bi bi-pencil-square "></i> Edit user info</a>
+              <a href="{% url 'main:edit_basic_info' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit"><i class="bi bi-pencil-square "></i> Edit basic info</a>
+              <a href="{% url 'main:edit_contact_info' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit"><i class="bi bi-pencil-square "></i> Edit contact info</a>
+              <a href="{% url 'main:edit_identity_info' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit"><i class="bi bi-pencil-square "></i> Edit NIN</a>
+              <a href="{% url 'main:password_reset' %}" class="pallet-suttle-red-bg text-danger rounded-2 p-1 edit"><i class="bi bi-pencil-square "></i> Reset password</a>
+              
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="list-group-item">
+            <span>Username</span><span class="float-end">{{User.username}}</span>
+          </div>
+          <div class="list-group-item">
+            <span>Full name</span
+            ><span class="float-end">{{User.last_name}} {{User.first_name}}</span>
+          </div>
+          <div class="list-group-item">
+            <span>Gender</span><span class="float-end">
+              
+              {% if userdata.gender == 'm' %}
+                Male
+              {% elif userdata.gender == 'f' %}
+                Female
+              {% else %}
+                Error
+              {% endif %}
+                
+            </span>
+          </div>
+          <div class="list-group-item">
+            <span>Student type</span><span class="float-end">{{userdata.category}}</span>
+          </div>
+          <div class="list-group-item">
+            <i class="bi bi-phone"></i>&nbsp;<span>Phone numbers</span>
+            {% if not ristricted %}
+              {% if userdata.nums.count > 0 %}
+                <a
+                role="button"
+                id="phone-toggle"
+                class="collapsed float-end"
+                data-bs-toggle="collapse"
+                href="#phone"
+                onclick="textToggle('phone-toggle')"
+                aria-expanded="false"
+                ><i class="bi bi-arrow-down-square-fill"></i
+              ></a>
+              {% else %}
+                  <span class="float-end">No Number</span>
+              {% endif %}
+                
+              <div class="collapse" id="phone">
+                
+                {% for number in userdata.nums.all %}
+                  <span class="dropdown-item"
+                  ><i class="bi bi-phone"></i>&nbsp;<a
+                    href="tel:{{number.num}}"
+                    class="link phone"
+                    >{{number.num}}</a
+                  ></span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <span class="float-end">Hidden</span>
+            {% endif %}
+          </div>
+          <div class="list-group-item">
+            <i class="bi bi-link"></i>&nbsp;<span>Other links</span>
+            {% if not ristricted %}
+              {% if userdata.otherlinks.count > 0 %}
+                <a
+                role="button"
+                id="links-toggle"
+                class="collapsed float-end"
+                data-bs-toggle="collapse"
+                href="#links"
+                onclick="textToggle('links-toggle')"
+                aria-expanded="false"
+                ><i class="bi bi-arrow-down-square-fill"></i
+              ></a>
+              {% else %}
+                  <span class="float-end">No links</span>
+              {% endif %}
+                
+              <div class="collapse" id="links">
+                
+                {% for link in userdata.otherlinks.all %}
+                  <span class="dropdown-item"
+                  ><i class="bi bi-link"></i>&nbsp;<a
+                    href="{{link.link}}"
+                    class="link phone"
+                    >{{link.display_text}}</a
+                  ></span>
+                {% endfor %}    
+              </div>
+              {% else %}
+                <span class="float-end">Hidden</span>
+              {% endif %}
+          </div>
+          
+        {% if userdata.sociallinks.all.count > 0 %}
+          <div class="list-group-item">
+            <div class="social-links mb-4">
+              <span class="d-block m-0 mb-2" style="font-size: medium"
+                >Social Links</span
+              >
+              {% if not ristricted %}
+                <ul>
+                    {% for link in userdata.sociallinks.all %}
+                    <li>
+                      <span
+                        ><a href="{{link.link}}"><i class="bi bi-{{link.platform.platform}}"></i></a
+                      ></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+              {% else %}
+              <span>Hidden</span>
+              {% endif %}
+            </div>
+          </div>
+          
+        {% endif %}
+          
+          
+          {% if user.username == User.username %}
+          <div class="list-group-item">
+            <span>NIN</span><span class="float-end">{{userdata.nin.nin}}</span>
+          </div>
+          {% endif %}
+            
+
+          {% if user.username == User.username %}
+          <div class="list-group-item ">
+            <form action="/logout/" method="post" class="d-grid">
+              {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger" >Logout</button>
+            </form>
+          </div>
+          {% endif %}
+            
+        </div>
+      </div>
+    </main>
+    <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+      function back(){
+        window.history.back()
+      }
+    </script>
+  </body>
+</html>

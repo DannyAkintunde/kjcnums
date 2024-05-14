@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %} 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit profile</title>
+    <link rel="stylesheet" href="{% static '/css/form.css' %}">
+    <link rel="stylesheet" href="{% static '/vendor/css/bootstrap.min.css' %}">
+</head>
+<body> 
+    <div id="body">
+        <div id="inner">
+            <form action="" method="post" enctype="multipart/form-data">
+                <h2 class="text-muted mb-3">Edit basic info</h2>
+                {% csrf_token %}
+                <div>
+                    <div class="d-flex justify-content-center flex-column align-items-center">
+                        <div class="custom-file-input">
+                        {{ form.image|as_crispy_field }}
+                        <label for="fileInput" class="text text-center">
+                            
+                            {% if form.instance.image %}
+                            <img src="{{ form.instance.image.url }}" alt="Upload Image" id="previewImage">
+                            {% else %}
+                            <img src="{% static '/images/select.png' %}" alt="Upload Image" id="previewImage">
+                            {% endif %}
+                                
+                        </label>
+                    </div>
+                </div>
+                <!-- Render each form field individually -->
+                <div class="form-group">
+                    <label for="{{ form.gender.id_for_label }}"></label>
+                    {{ form.gender|as_crispy_field }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}"></label>
+                    {{ form.category|as_crispy_field }}
+                </div>
+
+                <div class="btn-group w-100">
+                    <button class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="{% static 'js/script.js' %}"></script>
+    <script>
+        input_group = document.getElementsByClassName('input-group')[0]
+        input_group.innerHtml = '';
+    </script>
+</body>
+</html>

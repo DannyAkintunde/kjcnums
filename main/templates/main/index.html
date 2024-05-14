@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      <main id="body" class="justify-content-center align-items-center">
+      <div class="hero">
+        <div>
+          <h1 id='anim' class="text-center">
+            Welcome to
+            <abbr title="King James College" class="text-primary-emphasis"
+              >KJC</abbr
+            >
+            nums
+          </h1>
+          <p class="text-muted text-center">
+            our databse of all
+            <abbr title="King James College" class="text-primary-emphasis"
+              >KJC</abbr
+            >
+            students phone numbers
+          </p>
+          <div class="d-flex justify-content-between p-3">
+            <a class="btn btn-primary" href="/addnum">Add number</a>
+            <a class="btn btn-secondary" href="/nums">View numbers</a>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock content %}
+  
+
