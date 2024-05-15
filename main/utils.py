@@ -28,4 +28,3 @@ def upload_image_to_imgur(image_file):
         print("An error occurred:", str(e))
         return None
 
-Here's my previous code
