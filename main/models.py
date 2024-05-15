@@ -119,7 +119,7 @@ class Ristriction(models.Model):
 class Userdata(models.Model):
     """Model definition for Userdata."""
 
-    image = models.ImageField(upload_to='static//images/users',blank=True)
+    image = models.URLField(blank=True,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     gender = models.CharField(max_length=1,null=False)
     nums = models.ManyToManyField(Nums)

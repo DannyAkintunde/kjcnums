@@ -19,10 +19,10 @@
                     <div class="d-flex justify-content-center flex-column align-items-center">
                         <div class="custom-file-input">
                         {{ form.image|as_crispy_field }}
-                        <label for="fileInput" class="text text-center">
+                        <label for="fileInput" class="">
                             
                             {% if form.instance.image %}
-                            <img src="{{ form.instance.image.url }}" alt="Upload Image" id="previewImage">
+                            <img src="{{ form.instance.image }}" alt="Upload Image" id="previewImage">
                             {% else %}
                             <img src="{% static '/images/select.png' %}" alt="Upload Image" id="previewImage">
                             {% endif %}

@@ -96,8 +96,21 @@ DATABASES = {
     },
   }
 }
-
-
+"""
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'kjcnums',
+    'USER': 'kjcnums_owner',
+    'PASSWORD': 'O0aTwHs3vNDK',
+    'HOST': 'ep-sweet-credit-a2bm5wkq.eu-central-1.aws.neon.tech',
+    'PORT':  5432,
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+  }
+}
+"""
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

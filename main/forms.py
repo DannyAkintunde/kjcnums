@@ -68,9 +68,10 @@ class PrivacyForm(forms.ModelForm):
 
 
 class BasicInfoForm(forms.ModelForm):
+    image = forms.ImageField()
     class Meta:
         model = models.Userdata
-        fields = ['image', 'gender', 'category']
+        fields = ['gender', 'category']
         widgets = {
             'gender':forms.Select(choices=[('m','Male'),('f','Female')])
         }

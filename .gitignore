@@ -1,2 +1,3 @@
 sent_emails/
+staticfiles/
 db.sqlite3

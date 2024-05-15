@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from . import forms
 from . import models
+from .utils import upload_image_to_imgur
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -135,8 +136,8 @@ def setup(request,username):
     if request.method == 'POST':
         if request.POST.get('error') != 'no-num':
             if request.FILES.get('image'):
-                image = request.FILES.get('image')
-            else: image = 'static/images/select.png'
+                image = upload_image_to_imgur(request.FILES.get('image'))
+            else: image = '/static/images/no-image-found-360x260.png'
             student_type = request.POST.get('studenttype')
             gender = request.POST.get('gender')
             ristrictions=models.Ristriction(type='all')
@@ -273,7 +274,12 @@ def edit_basic_info(request):
     if request.method == 'POST':
         form = forms.BasicInfoForm(request.POST,request.FILES, instance=user_data)
         if form.is_valid():
-            form.save()
+            image = upload_image_to_imgur(request.FILES['image'])
+            print(image)
+            gender = form.cleaned_data['gender']
+            category = form.cleaned_data['category']
+            user_data.image,user_data.gender,user_data.category = image,gender,category
+            user_data.save()
             return redirect('main:profile',request.user)  # Redirect to profile page after saving
     else:
         form = forms.BasicInfoForm(instance=user_data)

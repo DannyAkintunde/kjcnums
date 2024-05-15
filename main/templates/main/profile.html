@@ -28,7 +28,7 @@
               <img
                 src="
                 {% if userdata.image %}
-                  /{{userdata.image}}
+                  {{userdata.image}}
                 {% else %}
                   {% static '/images/no-image-found-360x260.png' %}
                 {% endif %}
