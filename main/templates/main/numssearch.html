@@ -59,9 +59,9 @@
                   <img
                     src="
                 {% if student.image %}
-                  /{{student.image}}
+                  {{student.image}}
                 {% else %}
-                  {% static '/images/no-image-found-360x260.png' %}
+                  /static/images/no-image-found-360x260.png
                 {% endif %}
                   "
                     alt=""
@@ -143,9 +143,9 @@
                   <img
                     src="
                 {% if student.image %}
-                  /{{student.image}}
+                  {{student.image}}
                 {% else %}
-                  {% static '/images/no-image-found-360x260.png' %}
+                  /static/images/no-image-found-360x260.png
                 {% endif %}
                   "
                     alt=""
