@@ -25,7 +25,7 @@ def upload_image_to_imgur(image_file):
 
 
         # Return the URL of the uploaded image
-        return image
+        return image['url']
     except Exception as e:
     # Handle any exceptions, such as network errors or authentication failures
         print("An error occurred:", str(e))
