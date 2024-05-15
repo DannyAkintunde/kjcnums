@@ -167,3 +167,8 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')  # your SMTP username
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')  # your SMTP password
 DEFAULT_FORM_EMAIL = os.environ.get('EMAIL')
 SERVER_EMAIL = os.environ.get("EMAIL")
+
+DEFAULT_FILE_STORAGE = 'storages.backends.backblaze_b2.B2Storage'
+B2_ACCOUNT_ID = '002c267c43b3a100000000001'
+B2_ACCOUNT_KEY = 'K002a2W0dhorZuN2f25IbtefctyBUhQ'
+B2_BUCKET_NAME = 'kjcnums'
