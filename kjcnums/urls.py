@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path,include
 from django.views.static import serve
 import os
+from django.conf import settings
+from django.conf.urls.static import static
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -31,3 +33,4 @@ urlpatterns = [
     #     }
     # ),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
