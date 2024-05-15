@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,6 +88,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('PGDATABASE'),
+    'USER': os.environ.get('PGUSER'),
+    'PASSWORD': os.environ.get('PGPASSWORD'),
+    'HOST': os.environ.get('PGHOST'),
+    'PORT': os.environ.get('PGPORT', 5432),
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+  }
+}
 
 
 # Password validation
@@ -153,3 +168,4 @@ SERVER_EMAIL = 'kjcnums@gmail.com'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
