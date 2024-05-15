@@ -32,7 +32,13 @@
           <div class="image list-group-item d-flex justify-content-center">
             
             <img
-              src="/{{userdata.image}}"
+              src="
+                {% if userdata.image %}
+                  /{{userdata.image}}
+                {% else %}
+                  {% static '/images/no-image-found-360x260.png' %}
+                {% endif %}
+                  "
               alt=""
               srcset=""
               class="img-thumbnail img-fluid rounded-circle"

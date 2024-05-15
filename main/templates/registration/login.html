@@ -17,7 +17,7 @@
                 {% csrf_token %}{{form|crispy}}
                 <button type="submit" class="">Login</button>
                 <p>Don't have an account register <a href="/sign-up">here</a>
-                Or <a href="{% url 'password_reset' %}" class="link">Reset&nbsp;Password</a></p>
+                or <a href="{% url 'password_reset' %}" class="link">Reset&nbsp;Password</a> or <a href="{% url 'main:recover' %}" class="link">Recover&nbsp;your&nbsp;account</a> with NIN</p>
             </form>
         </div>
     </div>

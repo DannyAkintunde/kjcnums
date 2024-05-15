@@ -19,4 +19,7 @@ urlpatterns = [
     path('edit/user/',views.edit_user_info,name='edit_user_info'),
     path('password_reset/', views.CustomPasswordResetView.as_view(), name='password_reset'),
     path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_change/', views.MyPasswordChangeView.as_view(), name='password_change'),
+    path('password_change/done/', views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path('recover/',views.account_recover,name='recover')
 ]

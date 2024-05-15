@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-w)67r397x33z@c$ohd(z6l=ym*6pqb632rhkw($4iv1(it8o8&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','.vercel.app','.com']
+ALLOWED_HOSTS = ['localhost','.vercel.app','.com','127.0.0.1']
 
 
 # Application definition
@@ -150,3 +150,6 @@ EMAIL_HOST_PASSWORD = 'xsmtpsib-2a030dd7b300dcce4dea9c373681e99c7dbbcdc237428568
 DEFAULT_FORM_EMAIL = 'kjcnums@gmail.com'
 SERVER_EMAIL = 'kjcnums@gmail.com'
 """
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"

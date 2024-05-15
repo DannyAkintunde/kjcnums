@@ -5,8 +5,12 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.decorators import method_decorator
+
 
 def index(request):
     return render(request,'main/index.html')
@@ -332,3 +336,31 @@ def edit_privacy(request):
             return redirect('main:profile',request.user)
     
     return render(request,'main/edit/edit_privacy.html',context)
+
+
+
+class MyPasswordChangeView(PasswordChangeView):
+    success_url = reverse_lazy('password_change_done')
+    template_name = 'registration/password_change_form.html'  # Optional: specify custom template
+
+@method_decorator(login_required, name='dispatch')
+class MyPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'registration/password_change_done.html'  # Optional: specify custom template
+
+
+def account_recover(request):
+    message = ''
+    form = forms.RecoveryForm()
+    if request.method == 'POST':
+        form = forms.RecoveryForm(request.POST)
+        if form.is_valid():
+            nin = form.cleaned_data['nin']
+            #get user
+            try:
+                user = models.Nin.objects.get(nin=nin).user
+                login(request,user)
+                return redirect('main:edit_user_info')
+            except models.Nin.DoesNotExist:
+                message = 'No user found with this NIN'
+
+    return render(request,'main/recover_nin.html',{'message':message,'form':form})

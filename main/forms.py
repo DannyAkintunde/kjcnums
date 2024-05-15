@@ -87,3 +87,6 @@ class BasicInfoForm(forms.ModelForm):
 
 #         model = models.Userdata
 #         fields = ('nums','sociallinks','otherlinks')
+
+class RecoveryForm (forms.Form):
+    nin = forms.CharField(max_length=11,min_length=11,required=True,help_text='Input your nin')

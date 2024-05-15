@@ -25,9 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls')),
     path('',include('django.contrib.auth.urls')),
-    path('favicon.ico', serve, {
-            'path': 'favicon.ico',
-            'document_root': os.path.join(BASE_DIR, 'static/assets/img'),
-        }
-    ),
+    # path('favicon.ico', serve, {
+    #         'path': 'favicon.ico',
+    #         'document_root': os.path.join(BASE_DIR, 'static/images/techbg.jpg'),
+    #     }
+    # ),
 ]
