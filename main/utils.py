@@ -18,7 +18,7 @@ def upload_image_to_imgur(image_file):
         temp_file.close()
         # Upload image to Imgur
         #image = client.upload_from_path(temp_file.name)
-        image = imgbb.uplode(temp_file.name)
+        image = imgbb.upload({ 'image':open(temp_file.name,'rb')})
 
         os.remove(temp_file.name)
 
