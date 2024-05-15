@@ -155,17 +155,16 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-"""
+
+
+#EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.brevo.com'  # e.g., 'smtp.example.com'
 EMAIL_PORT = 587  # or your SMTP port
 EMAIL_USE_TLS = True  # or False if your SMTP server doesn't use TLS
-EMAIL_HOST_USER = '74a9ec001@smtp-brevo.com'  # your SMTP username
-EMAIL_HOST_PASSWORD = 'xsmtpsib-2a030dd7b300dcce4dea9c373681e99c7dbbcdc2374285686f70307b96d6664f-QC9rXE58IvPamcUw'  # your SMTP password
-DEFAULT_FORM_EMAIL = 'kjcnums@gmail.com'
-SERVER_EMAIL = 'kjcnums@gmail.com'
-"""
-
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
-
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')  # your SMTP username
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')  # your SMTP password
+DEFAULT_FORM_EMAIL = os.environ.get('EMAIL')
+SERVER_EMAIL = os.environ.get("EMAIL")
