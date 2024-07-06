@@ -112,9 +112,6 @@
     <script>
         type = document.getElementById("div_id_type");
         type.getElementsByTagName("label")[0].innerHTML = "Ristrict contact info from";
-        type.getElementsByTagName(
-        "select"
-        )[0].innerHTML = `<option value="all">All Users</option> <option value="except">All Except</option> <option value="only" selected="">Only</option>`;
         users = document.getElementById("div_id_users");
         users.setAttribute("hidden", "true");
         displayusers = document.getElementById("display-users");
