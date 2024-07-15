@@ -376,5 +376,3 @@ def account_recover(request):
 
     return render(request,'main/recover_nin.html',{'message':message,'form':form})
 
-def error_404_view(request, exception):
-    return render(request,'404.html')
