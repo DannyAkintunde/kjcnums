@@ -33,4 +33,5 @@ urlpatterns = [
     #     }
     # ),
 ]
+handler404 = 'main.views.error_404_view'
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -375,3 +375,6 @@ def account_recover(request):
                 message = 'No user found with this NIN'
 
     return render(request,'main/recover_nin.html',{'message':message,'form':form})
+
+def error_404_view(request, exception):
+    return render(request,'404.html')
