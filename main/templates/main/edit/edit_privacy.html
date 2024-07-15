@@ -120,10 +120,12 @@
         console.log(tag.value);
         if (tag.value === "all") {
             displayusers.hidden = true;
+            deselectAll()
         } else {
             displayusers.hidden = false;
         }
         });
+        type.getElementsByTagName('select')[0].dispatchEvent(new Event('change'));
     </script>
     <script src="{% static 'js/privacy.js' %}"></script>
 </body>

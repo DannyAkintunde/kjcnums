@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from . import forms
 from . import models
-from .utils import upload_image_to_imgur
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -11,6 +10,9 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.decorators import method_decorator
+from .services import upload_image
+from django.conf import settings
+
 
 
 def index(request):
@@ -69,7 +71,7 @@ def nums(request):
     get_college_ristrictions(context['college_students'])
     get_tutorial_ristrictions(context['tutorial_students'])
     try :
-        if request.GET['search'] != None :
+        if request.GET.get('search') :
             context['search'] = request.GET['search']
             context['college_students'] = context['college_students'].filter(
                 Q(user__username__icontains=context['search'])|
@@ -136,8 +138,8 @@ def setup(request,username):
     if request.method == 'POST':
         if request.POST.get('error') != 'no-num':
             if request.FILES.get('image'):
-                image = upload_image_to_imgur(request.FILES.get('image'))
-            else: image = '/static/images/no-image-found-360x260.png'
+                image = upload_image(settings.IMGBB_API_KEY, request.FILES['image'].read()).get('data', {}).get('url', 'https://i.ibb.co/dDzZ5Xg/no-image-found-360x260.png')
+            else: image = 'https://i.ibb.co/dDzZ5Xg/no-image-found-360x260.png'
             student_type = request.POST.get('studenttype')
             gender = request.POST.get('gender')
             ristrictions=models.Ristriction(type='all')
@@ -274,7 +276,10 @@ def edit_basic_info(request):
     if request.method == 'POST':
         form = forms.BasicInfoForm(request.POST,request.FILES, instance=user_data)
         if form.is_valid():
-            image = upload_image_to_imgur(request.FILES['image'])
+            #image = upload_image_to_imgur(request.FILES['image'])
+            image = upload_image(settings.IMGBB_API_KEY, request.FILES['image'].read())
+            print(image)
+            image = image.get('data', {}).get('url', 'https://i.ibb.co/dDzZ5Xg/no-image-found-360x260.png')
             print(image)
             gender = form.cleaned_data['gender']
             category = form.cleaned_data['category']

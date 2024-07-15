@@ -34,7 +34,18 @@ function check_func(e){
     }
 }
 
-
+const deselectAll = () => {
+  for (let i = 0; i < users.length; i++) {
+    const element = users[i];
+    const form_user = form_users[i];
+    // Uncheck each checkbox
+    element.getElementsByTagName("input")[0].checked = false;
+    // Unselect each option in the <select> element
+    form_user.selected = false;
+  }
+  // Uncheck the "select all" checkbox
+  selectall.checked = false;
+};
 
 selectall.addEventListener('input',(e)=>{
     for (let i = 0; i < users.length; i++) {
