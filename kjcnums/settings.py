@@ -133,7 +133,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL ='/login'
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
+#c
 
 STATIC_URL = '/static/'
 
@@ -147,7 +147,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
     },
 }
 # Default primary key field type
