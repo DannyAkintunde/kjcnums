@@ -1,0 +1,106 @@
+body {
+  background-color: #f9fafb;
+  font-family: "Open Sans", sans-serif;
+  height: 100vh;
+}
+a {
+  text-decoration: none;
+  color: #3498db;
+  opacity: 0.5;
+}
+a:hover {
+  opacity: 1;
+  text-decoration: underline #3498db;
+}
+#body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
+#inner {
+  margin: auto;
+  box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 1rem;
+  width: 25rem;
+}
+h2 {
+  text-align: center;
+  margin: 0 0 20px;
+}
+label {
+  margin-bottom: 5px;
+  color: #777;
+}
+input {
+  display: block;
+  border: 2px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+input:focus {
+  outline: 0;
+  border-color: #3498db;
+}
+button {
+  cursor: pointer;
+  background-color: #3498db;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+
+}
+button:hover {
+  background-color: #2980b9;
+}
+button:active {
+  background-color: #1f618d; 
+}
+.custom-file-input {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-file-input input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 10rem;
+    height: 10rem;
+    cursor: pointer;
+}
+
+.custom-file-input label {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.custom-file-input img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover; /* Adjust this to fit your design */
+    border-radius: 50%;
+}
+.pallet-suttle-red-bg {
+  background-color: #ff7f7f ;
+}
+.edit {
+  font-size: x-small;
+  text-decoration: none;
+  transition: all .2s;
+}
+.edit:hover {
+  color: #ff7f7f !important;
+  background-color: rgb(220, 53, 69);
+}
