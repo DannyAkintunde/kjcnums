@@ -32,7 +32,7 @@ def signup(request):
 
     return render(request,'registration/sign_up.html',{'form':form})
 
-@@login_required(login_url='/login')
+@login_required(login_url='/login')
 def nums(request):
     categories = models.Category.objects.all()
     
