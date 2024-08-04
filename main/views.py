@@ -174,7 +174,7 @@ def edit_deatails(request,mode,username,property):
     if property == 'social':
         form = forms.SociallinkForm()
         page['title'] = 'Add Social link'
-        page['message'] = 'Don\'t have a Whatsapp link create one <a href=\'/\' class=\'link\'>here</a>'
+        page['message'] = 'Don\'t have a Sociallink generate one <a href=\'https://social-gen-seven.vercel.app\' class=\'link\'>here</a>'
         page['hint'] = 'Input your details'
         print(page)
         if request.method == 'POST':
