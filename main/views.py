@@ -32,66 +32,62 @@ def signup(request):
 
     return render(request,'registration/sign_up.html',{'form':form})
 
-@login_required(login_url='/login')
+@@login_required(login_url='/login')
 def nums(request):
     categories = models.Category.objects.all()
+    
+    # Initialize context with students based on category
     context = {
-        'userdata':models.Userdata.objects.all(),
-        'college_students':models.Userdata.objects.filter(category=categories[0]),
-        'tutorial_students':models.Userdata.objects.filter(category=categories[1]),
-        'college':{student:False for student in models.Userdata.objects.filter(category=categories[0])},
-        'tutorial':{student:False for student in models.Userdata.objects.filter(category=categories[1])}
+        'userdata': models.Userdata.objects.all(),
+        'college_students': models.Userdata.objects.filter(category=categories[0]),
+        'tutorial_students': models.Userdata.objects.filter(category=categories[1]),
+        'college': {student: False for student in models.Userdata.objects.filter(category=categories[0])},
+        'tutorial': {student: False for student in models.Userdata.objects.filter(category=categories[1])}
     }
-    def get_college_ristrictions(students):
+
+    # Helper function to apply restrictions
+    def apply_restrictions(students, context_key):
         for student in students:
             if student.user != request.user:
-                if student.ristrictions.type == 'all':
-                    context['college'][student] = False
-                elif student.ristrictions.type == 'except':
-                    for user in student.ristrictions.users.all():
-                        context['college'][student]=user==request.user
-                elif student.ristrictions.type == 'only':
-                    for user in student.ristrictions.users.all():
-                        context['college'][student]=user!=request.user
+                if student.restrictions.type == 'all':
+                    context[context_key][student] = False
+                elif student.restrictions.type == 'except':
+                    context[context_key][student] = any(user == request.user for user in student.restrictions.users.all())
+                elif student.restrictions.type == 'only':
+                    context[context_key][student] = all(user != request.user for user in student.restrictions.users.all())
             else:
-                context['college'][student]=False
-    def get_tutorial_ristrictions(students):
-        for student in students:
-            if student.user != request.user:
-                if student.ristrictions.type == 'all':
-                    context['tutorial'][student] = False
-                elif student.ristrictions.type == 'except':
-                    for user in student.ristrictions.users.all():
-                        context['tutorial'][student]=user==request.user
-                elif student.ristrictions.type == 'only':
-                    for user in student.ristrictions.users.all():
-                        context['tutorial'][student]=user!=request.user
-            else:
-                context['tutorial'][student]=False
-    get_college_ristrictions(context['college_students'])
-    get_tutorial_ristrictions(context['tutorial_students'])
-    try :
-        if request.GET.get('search') :
-            context['search'] = request.GET['search']
+                context[context_key][student] = False
+
+    # Apply restrictions
+    apply_restrictions(context['college_students'], 'college')
+    apply_restrictions(context['tutorial_students'], 'tutorial')
+
+    try:
+        search_query = request.GET.get('search')
+        if search_query:
+            context['search'] = search_query
             context['college_students'] = context['college_students'].filter(
-                Q(user__username__icontains=context['search'])|
-                Q(user__first_name__icontains=context['search'])|
-                Q(user__last_name__icontains=context['search'])|
-                Q(user__email__icontains=context['search'])
-                )       
+                Q(user__username__icontains=search_query) |
+                Q(user__first_name__icontains=search_query) |
+                Q(user__last_name__icontains=search_query) |
+                Q(user__email__icontains=search_query)
+            )
             context['tutorial_students'] = context['tutorial_students'].filter(
-                Q(user__username__icontains=context['search'])|
-                Q(user__first_name__icontains=context['search'])|
-                Q(user__last_name__icontains=context['search'])|
-                Q(user__email__icontains=context['search'])
-                )
-            context['count'] = len(context['college_students'])+len(context['tutorial_students'])
-            get_college_ristrictions(context['college_students'])
-            get_tutorial_ristrictions(context['tutorial_students'])
-            return render(request,'main/numssearch.html',context)
-    except:
-        print('an error occured')
-    return render(request,'main/nums.html',context)
+                Q(user__username__icontains=search_query) |
+                Q(user__first_name__icontains=search_query) |
+                Q(user__last_name__icontains=search_query) |
+                Q(user__email__icontains=search_query)
+            )
+            context['count'] = len(context['college_students']) + len(context['tutorial_students'])
+            # Reapply restrictions after filtering
+            apply_restrictions(context['college_students'], 'college')
+            apply_restrictions(context['tutorial_students'], 'tutorial')
+            return render(request, 'main/numssearch.html', context)
+    except Exception as e:
+        print(f'An error occurred: {e}')
+    
+    return render(request, 'main/nums.html', context)
+
 
 @login_required(login_url='/login')
 def addnum(request):
